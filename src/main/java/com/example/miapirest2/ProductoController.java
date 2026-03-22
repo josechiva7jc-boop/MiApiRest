@@ -1,5 +1,6 @@
 package com.example.miapirest2;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,8 +20,10 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public Producto getById(@PathVariable int id) {
-        return repository.findById(id).orElse(null);
+    public ResponseEntity<Producto> getById(@PathVariable int id) {
+        return repository.findById(id)
+        .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
